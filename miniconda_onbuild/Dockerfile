@@ -1,9 +1,9 @@
-FROM tinyconda
+FROM rothnic/tinyconda
+MAINTAINER Nick Roth <nlr06886@gmail.com>
 
-ADD /config_env.sh /config_env.sh
-
-ONBUILD ADD ./environment.yml /app/environment.yml
-ONBUILD RUN conda env create -f /app/environment.yml -n app
+# These commands run when a new image is built
+ONBUILD ADD environment.yml /environment.yml
+ONBUILD RUN conda env create -f /environment.yml -n app
 ONBUILD ADD . /app
 
 ENTRYPOINT ["/opt/conda/envs/app/bin/python"]

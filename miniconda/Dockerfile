@@ -1,4 +1,5 @@
 FROM debian:jessie
+MAINTAINER Nick Roth <nlr06886@gmail.com>
 
 ENV PATH=/opt/conda/bin:$PATH
 ENV CONDA_INSTALLER="Miniconda3-latest-Linux-x86_64.sh"
