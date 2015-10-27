@@ -16,13 +16,41 @@ how you setup the environment. (see example `environment.yml`)
 * Provides a deployment environment that is very similar to a local development
 environment.
 
-### Why not utilize a micro linux distribution?
-Currently, there is a smaller miniconda distribution available that utilizes
-busybox, but this can no longer be built at the moment due to the move from
-glibc to musl c compiler. There is [some work](http://wiki.alpinelinux.org/wiki/Running_glibc_programs) to utilize glibc with alpine, but
-this is immature at the moment, and likely to cause issues with conda at some
-point. This could move to alpine if it is found to avoid issues with all the pre-built
-binaries that conda is useful for in the first place.
+### Quickstart with Example App
+Assuming you have docker installed. The example uses pandas and click to demonstrate
+that we can use pre-combiled libraries and pip-installed libraries. The example
+modifies the example click app to build up a DataFrame of greetings.
+
+1. Clone this repository
+2. `cd docker-miniconda/test_app`
+3. `docker build -t test_app .`
+4. `docker run --rm -it test_app`
+
+**Output**
+
+```
+
+# uses default CMD in Dockerfile
+→ docker run --rm -it test_app /app/app.py
+Your name: Nick
+  greeting  name
+0    Hello  Nick
+
+# overrides CMD in Dockerfile
+→ docker run --rm -it test_app /app/app.py --count=3
+Your name: Nick
+  greeting  name
+0    Hello  Nick
+1    Hello  Nick
+2    Hello  Nick
+
+→ docker run --rm -it test_app /app/app.py --count=3 --greeting=Yo
+Your name: Nick
+  greeting  name
+0       Yo  Nick
+1       Yo  Nick
+2       Yo  Nick
+```
 
 ## Tutorial
 
@@ -50,6 +78,17 @@ binaries that conda is useful for in the first place.
 11. Build image with `docker build -t <your_app_name> .`
 12. Run the app with `docker run --rm -it <your_app_name>` or `docker run --rm -it <your_app_name> /app/<script_name>.py arg1 arg2`
 
+### Troubleshooting
+Note: If you have issues when running your app in the docker environment, there
+is likely an issue between package requirements for your local machine OS vs linux. In
+that case do the following:
+
+1. Run the image with bash as entrypoint: `docker run --rm -it --entrypoint=/bin/bash test_app`
+2. enter `source activate app`
+3. `conda install <package>` where package is suspected to have issues
+4. `conda env export`
+5. Copy the output from export into the environment.yml and rebuild app.
+
 ## Docker Images
 The dockerfile is available for customization, but the most common use should be
 by using the pre-built version from docker hub. This currently comes in two
@@ -62,3 +101,11 @@ flavors, `tinyconda` and `tinyconda-onbuild`.
 The miniconda version is python3, but your `environment.yml` will specify the
 python version, and all package versions that you installed in your local environment
 before executing the creation of the environment.yml file.
+
+## Why not utilize a micro linux distribution?
+Currently, there is a smaller miniconda distribution available that utilizes
+busybox, but this can no longer be built at the moment due to the move from
+glibc to musl c compiler. There is [some work](http://wiki.alpinelinux.org/wiki/Running_glibc_programs) to utilize glibc with alpine, but
+this is immature at the moment, and likely to cause issues with conda at some
+point. This could move to alpine if it is found to avoid issues with all the pre-built
+binaries that conda is useful for in the first place.

@@ -1,15 +1,19 @@
 import click
-
-click.disable_unicode_literals_warning = True
+import pandas as pd
 
 @click.command()
-@click.option('--count', default=1, help='Number of greetings.')
+@click.option('--count', default=1, help='Number of rows.')
 @click.option('--name', prompt='Your name',
               help='The person to greet.')
-def hello(count, name):
+@click.option('--greeting', default='Hello', help='Greeting string to use.')
+def hello(count, name, greeting):
     """Simple program that greets NAME for a total of COUNT times."""
+    rows = []
     for x in range(count):
-        click.echo('Hello %s!' % name)
+        rows.append({'greeting': greeting, 'name': name})
+
+    df = pd.DataFrame.from_dict(rows)
+    click.echo(df)
 
 if __name__ == '__main__':
     hello()
