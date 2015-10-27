@@ -51,6 +51,22 @@ Your name: Nick
 2       Yo  Nick
 ```
 
+### Ok, but what did that do?
+
+1. Pulled the onbuild tinyconda image.
+2. Docker built an image with all of the app dependencies by having conda install the
+version of python and packages specified in `environment.yml`.
+3. Conda installed python 3.5 in an environment and all conda packages specified, including pandas,
+which requires numpy, normally requiring blas, fortran, and
+other headache inducing platform compilation dependencies be installed, which aren't required
+for running the app.
+4. Conda installed the pip packages specified.
+5. When you call `run`, docker spins up an instance container of the pre-build image
+containing all dependencies, with `--rm` meaning to throw away the container afterwards (doesn't affect the image),
+then `-it` controls the output from our app, then `test_app` is our image name,
+then any additional inputs are passed to `/opt/conda/envs/app/bin/python`, as if
+python was on your local machine.
+
 ## Tutorial
 
 1. Most users should start with the [Docker Toolbox](https://www.docker.com/docker-toolbox)
