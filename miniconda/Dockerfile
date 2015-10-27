@@ -1,6 +1,7 @@
 FROM debian:jessie
 
 ENV PATH=/opt/conda/bin:$PATH
+ENV CONDA_INSTALLER="Miniconda3-latest-Linux-x86_64.sh"
 
 # all runtime requirements
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -11,10 +12,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrender1 \
     wget \
     ca-certificates && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda-3.10.1-Linux-x86_64.sh && \
-    /bin/bash /Miniconda-3.10.1-Linux-x86_64.sh -b -p /opt/conda && \
-    rm Miniconda-3.10.1-Linux-x86_64.sh && \
-    /opt/conda/bin/conda install --yes conda==3.14.1 && \
+    wget --quiet https://repo.continuum.io/miniconda/${CONDA_INSTALLER} && \
+    /bin/bash /${CONDA_INSTALLER} -b -p /opt/conda && \
+    rm ${CONDA_INSTALLER} && \
+    /opt/conda/bin/conda install --yes conda && \
     conda install conda-build && \
     conda remove tk --yes && \
     conda clean --yes --tarballs --packages --source-cache && \
