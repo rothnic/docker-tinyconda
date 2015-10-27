@@ -1,4 +1,3 @@
-
 # docker-tinyconda
 A minimal base image for miniconda, starting with the smallest glibc compatible
 docker image (debian), adding in miniconda runtime requirements, adding
@@ -95,7 +94,7 @@ by using the pre-built version from docker hub. This currently comes in two
 flavors, `tinyconda` and `tinyconda-onbuild`.
 
 * `rothnic/tinyconda:latest`: base image (~290MB) with Miniconda installed
-* `rothnic/tinyconda-onbuild:latest`: auto installs dependencies with environment.yml file from conda
+* `rothnic/tinyconda:onbuild-latest`: auto installs dependencies with environment.yml file from conda
 
 ## Python/Miniconda Version
 The miniconda version is python3, but your `environment.yml` will specify the
