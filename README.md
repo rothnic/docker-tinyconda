@@ -94,8 +94,8 @@ The dockerfile is available for customization, but the most common use should be
 by using the pre-built version from docker hub. This currently comes in two
 flavors, `tinyconda` and `tinyconda-onbuild`.
 
-* `rothnic/tinyconda:latest`
-* `rothnic/tinyconda-onbuild:latest`
+* `rothnic/tinyconda:latest`: base image (~290MB) with Miniconda installed
+* `rothnic/tinyconda-onbuild:latest`: auto installs dependencies with environment.yml file from conda
 
 ## Python/Miniconda Version
 The miniconda version is python3, but your `environment.yml` will specify the
